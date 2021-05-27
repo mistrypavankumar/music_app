@@ -1,16 +1,5 @@
 # music_app
 
-A new Flutter project.
+<img src = "https://user-images.githubusercontent.com/68140538/119894980-e8e1b500-bf5a-11eb-8e9c-24270f1e06ba.jpeg " width=300) />
+<img src = "https://user-images.githubusercontent.com/68140538/119894989-ea12e200-bf5a-11eb-820d-34294981ef68.jpeg " width=300) />
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
