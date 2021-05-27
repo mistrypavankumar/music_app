@@ -39,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   fetchRadios() async {
     final radioJson = await rootBundle.loadString("assets/radio.json");
     radios = MyRadioList.fromJson(radioJson).radios;
+    setState(() {});
   }
 
   _playMusic(String url) {
@@ -50,7 +51,32 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(),
+      drawer: Drawer(
+        child: Container(
+          color: _selectedColor ?? AIColors.primaryColor2,
+          child: radios != null
+              ? [
+                  100.heightBox,
+                  "All Channel".text.xl.white.semiBold.make().px16(),
+                  20.heightBox,
+                  ListView(
+                      padding: Vx.m0,
+                      shrinkWrap: true,
+                      children: radios
+                          .map(
+                            (e) => ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage(e.icon),
+                              ),
+                              title: "${e.name} FM".text.white.make(),
+                              subtitle: e.tagline.text.white.make(),
+                            ),
+                          )
+                          .toList()),
+                ].vStack()
+              : const Offstage(),
+        ),
+      ),
       body: Stack(
         children: [
           VxAnimatedBox()
@@ -59,12 +85,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [AIColors.primaryColor1, AIColors.primaryColor2],
+                  colors: [
+                    AIColors.primaryColor2,
+                    _selectedColor ?? AIColors.primaryColor1,
+                  ],
                 ),
               )
               .make(),
           AppBar(
-            title: "AI Radio".text.xl4.bold.white.make().shimmer(
+            title: "MG Radio".text.xl4.bold.white.make().shimmer(
                   primaryColor: Vx.purple300,
                   secondaryColor: Colors.white,
                 ),
@@ -75,6 +104,11 @@ class _HomeScreenState extends State<HomeScreen> {
           radios != null
               ? VxSwiper.builder(
                   itemCount: radios.length,
+                  onPageChanged: (index) {
+                    final colorHex = radios[index].color;
+                    _selectedColor = Color(int.tryParse(colorHex));
+                    setState(() {});
+                  },
                   aspectRatio: 1.0,
                   enlargeCenterPage: true,
                   itemBuilder: (context, index) {
@@ -137,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ).centered()
               : CircularProgressIndicator(
                   backgroundColor: Colors.white,
-                ),
+                ).centered(),
           Align(
             alignment: Alignment.bottomCenter,
             child: [
@@ -151,6 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ? CupertinoIcons.stop_circle
                     : CupertinoIcons.play_circle,
                 color: Colors.white,
+                size: 40,
               ).onInkTap(() {
                 if (_isPlaying) {
                   _audioPlayer.stop();
